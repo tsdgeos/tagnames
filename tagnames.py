@@ -2,24 +2,23 @@ import sys
 import subprocess
 
 names = sys.stdin.read().split('\n')
+currentNumber = 1
 
-page = 5
+page = 10
 blank = [ "____________________", "", "____________________" ]
 
 def replaceName(ff, number, val):
-    nombre = ""
-    if val[1] == "":
-        nombre = val[0]
-    else:
-        nombre = "%s (%s)" % (val[0], val[1])
+    global currentNumber
+    nombre = "%s - %s" % (val[0], str(currentNumber))
     ff=ff.replace('nombre'+number, nombre, 1)
-    ff=ff.replace('organizacion'+number, val[2], 1)
+    ff=ff.replace('organizacion'+number, "Beer, Wine, non alcoholic", 1)
+    currentNumber = currentNumber + 1
     return ff
 
 for i in range(0,len(names)//page+1):
     idx = i * page
 
-    f = open('tagnames2016.svg')
+    f = open('akademy_ticket.svg')
     ff = f.read()
     if idx<len(names):
         ff = replaceName(ff, "1", names[idx].split('|'))
@@ -41,6 +40,26 @@ for i in range(0,len(names)//page+1):
         ff = replaceName(ff, "5", names[idx+4].split('|'))
     else:
         ff = replaceName(ff, "5", blank)
+    if idx+5<len(names) and names[idx+5] != "":
+        ff = replaceName(ff, "6", names[idx+5].split('|'))
+    else:
+        ff = replaceName(ff, "6", blank)
+    if idx+6<len(names) and names[idx+6] != "":
+        ff = replaceName(ff, "7", names[idx+6].split('|'))
+    else:
+        ff = replaceName(ff, "7", blank)
+    if idx+7<len(names) and names[idx+7] != "":
+        ff = replaceName(ff, "8", names[idx+7].split('|'))
+    else:
+        ff = replaceName(ff, "8", blank)
+    if idx+8<len(names) and names[idx+8] != "":
+        ff = replaceName(ff, "9", names[idx+8].split('|'))
+    else:
+        ff = replaceName(ff, "9", blank)
+    if idx+9<len(names) and names[idx+9] != "":
+        ff = replaceName(ff, "10", names[idx+9].split('|'))
+    else:
+        ff = replaceName(ff, "10", blank)
     print('--')
 
     outputpath = 'akaes/tags%d.svg' % i
